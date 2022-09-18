@@ -9,7 +9,7 @@ ARG USER_UID=1000
 ARG USER_GID=1000
 
 
-Setup user
+# Setup user
 
 
 RUN adduser $USERNAME -s /bin/sh -D -u $USER_UID $USER_GID && 
@@ -21,7 +21,7 @@ echo $USERNAME ALL=(root) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME &&
 chmod 0440 /etc/sudoers.d/$USERNAME
 
 
-Install packages and Go language server
+# Install packages and Go language server
 
 
 RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh
@@ -29,7 +29,7 @@ RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh
 RUN go get -u -v golang.org/x/tools/cmd/gopls 2>&1
 
 
-Setup shell
+# Setup shell
 
 
 USER $USERNAME
