@@ -1,18 +1,51 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/go/.devcontainer/base.Dockerfile
-# [Choice] Go version (use -bullseye variants on local arm64/Apple Silicon): 1, 1.16, 1.17, 1-bullseye, 1.16-bullseye, 1.17-bullseye, 1-buster, 1.16-buster, 1.17-buster
-ARG VARIANT=1-bullseye
-FROM mcr.microsoft.com/devcontainers/go:0-${VARIANT}
+ARG GO_VERSION=1.13
+ARG ALPINE_VERSION=3.10
+FROM golang:${GO_VERSION}-alpine${ALPINE_VERSION}
 
-# [Choice] Node.js version: lts/*, 16, 14, 12, 10
-ARG NODE_VERSION="lts/*"
-RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c ". /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+ARG USERNAME=vscode
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+ARG USER_UID=1000
 
-# [Optional] Uncomment the next line to use go get to install anything else you need
-# RUN go get -x <your-dependency-or-tool>
+ARG USER_GID=1000
 
-# [Optional] Uncomment this line to install global node packages.
-# RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+
+Setup user
+
+
+RUN adduser $USERNAME -s /bin/sh -D -u $USER_UID $USER_GID && 
+
+mkdir -p /etc/sudoers.d && 
+
+echo $USERNAME ALL=(root) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && 
+
+chmod 0440 /etc/sudoers.d/$USERNAME
+
+
+Install packages and Go language server
+
+
+RUN apk add -q --update --progress --no-cache git sudo openssh-client zsh
+
+RUN go get -u -v golang.org/x/tools/cmd/gopls 2>&1
+
+
+Setup shell
+
+
+USER $USERNAME
+
+RUN sh -c “$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)” “” --unattended &> /dev/null
+
+ENV ENV=“/home/$USERNAME/.ashrc” 
+
+ZSH=/home/$USERNAME/.oh-my-zsh 
+
+EDITOR=vi 
+
+LANG=en_US.UTF-8
+
+RUN printf ‘ZSH_THEME=“robbyrussell”\nENABLE_CORRECTION=“false”\nplugins=(git copyfile extract colorize dotenv encode64 golang)\nsource $ZSH/oh-my-zsh.sh’ > “/home/$USERNAME/.zshrc”
+
+RUN echo “exec which zsh” > “/home/$USERNAME/.ashrc”
+
+USER root
