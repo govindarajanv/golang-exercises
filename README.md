@@ -1,2 +1,3 @@
-# golang-exercises
-golang-exercises
+# Golang-exercises
+
+My Golang Journey
