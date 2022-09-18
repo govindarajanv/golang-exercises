@@ -7,3 +7,5 @@ My Golang Journey
 ```
 go mod init hello
 ```
+
+Install go official vscode extension
