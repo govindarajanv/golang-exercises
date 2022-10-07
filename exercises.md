@@ -1,7 +1,7 @@
 * write a program to print 
- * "Hello World"
- * the current time
- * a random number
+  * "Hello World"
+  * the current time
+  * a random number
 * write a program that calls a function add to get a sum of two numbers entered by the user
 * write a program to swap two texts without using a third variable
 * write a program to use naked return swap two numbers 
