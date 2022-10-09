@@ -19,3 +19,14 @@
 1. Create a tic-tac-toe board X _ X,O _ X, _ _ O using slice of slices // https://go.dev/tour/moretypes/14
 1. Given an array, print cube of 'n' located at 'index' is 'n3' 
 2. 
+
+
+
+## Reference
+
+-  https://www.golangprograms.com/
+-  https://quii.gitbook.io/learn-go-with-tests/
+-  https://www.youtube.com/c/toddmcleod-learn-to-code/featured
+-  https://www.udemy.com/course/learn-how-to-code/#instructor-1
+-  https://boot.dev/
+-  https://www.sololearn.com/home
