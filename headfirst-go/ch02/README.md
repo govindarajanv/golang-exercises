@@ -1,0 +1,3 @@
+- Generate a random number from 1 to 100, and store it as a target number for a player to guess
+- Prompt the player to guess that number
+- Allow players to guess up to 10 times and display the balance guesses left
